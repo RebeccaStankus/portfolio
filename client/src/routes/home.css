@@ -1,0 +1,32 @@
+.btn-work {
+     background-color: var(--color-accent);
+     color: var(--color-bg-primary);
+     box-shadow: 3px 3px 7px rgba(242, 248, 250, 0.4);
+}
+
+.btn-work:hover {
+     background-color: var(--color-accent-hover);
+     color: var(--color-bg-secondary);
+     box-shadow: 4px 4px 8px rgba(135, 206, 235, 0.4);
+}
+
+.btn-work:active {
+     background-color: var(--color-accent-active);
+     color: var(--color-bg-tertiary);
+     box-shadow: 4px 4px 8px rgba(135, 206, 235, 0.3);
+}
+
+.btn-contact {
+     background-color: var(--color-bg-tertiary);
+     color: var(--color-text-primary);
+}
+
+.btn-contact:hover {
+     background-color: var(--color-tert-hover);
+     color: var(--color-text-secondary);
+}
+
+.btn-contact:active {
+     background-color: var(--color-tert-active);
+     color: var(--color-text-muted);
+}
