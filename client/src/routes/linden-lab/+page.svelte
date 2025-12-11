@@ -15,6 +15,9 @@
 
 <section class="project-section">
    <h2>Casino Project</h2>
+   <p class="section-description">
+      <a href="https://secondlife.com/destination/helios-casino-lounge" target="_blank" rel="noopener" class="external-link">Visit Helios Casino in Second Life</a>
+   </p>
    <div class="project-grid">
       <div class="card project-card">
          <h3>Casino Games</h3>
@@ -65,8 +68,22 @@
 }
 
 .project-section h2 {
-   margin-bottom: 1.5rem;
+   margin-bottom: 0.5rem;
    color: var(--color-accent);
+}
+
+.section-description {
+   margin-bottom: 1.5rem;
+   color: var(--color-text-secondary);
+}
+
+.external-link {
+   color: var(--color-accent);
+   text-decoration: none;
+}
+
+.external-link:hover {
+   text-decoration: underline;
 }
 
 .project-grid {
