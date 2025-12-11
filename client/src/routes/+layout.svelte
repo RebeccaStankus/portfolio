@@ -1,6 +1,9 @@
 <script>
    import "./global.css";
    import Starfield from "$lib/components/Starfield.svelte";
+   import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit";
+
+   injectSpeedInsights();
 </script>
 
 <Starfield />

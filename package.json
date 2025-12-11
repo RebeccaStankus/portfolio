@@ -2,15 +2,23 @@
      "name": "portfolio",
      "workspaces": [
           "client",
-          "server"
+          "server",
+          "shared"
      ],
      "license": "SEE LICENSE.txt",
      "scripts": {
+          "dev": "npm run build:shared && concurrently \"npm run dev:shared\" \"npm run dev:server\" \"npm run dev:client\"",
           "dev:client": "npm run dev -w client",
           "dev:server": "npm run dev -w server",
+          "dev:shared": "npm run dev -w shared",
+          "build": "npm run build:shared && npm run build:server && npm run build:client",
           "build:client": "npm run build -w client",
           "build:server": "npm run build -w server",
+          "build:shared": "npm run build -w shared",
+          "start": "npm start -w server",
           "lint": "npm run lint -w client"
      },
-     "dependencies": {}
+     "dependencies": {
+          "@vercel/speed-insights": "^1.3.1"
+     }
 }

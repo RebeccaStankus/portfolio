@@ -7,6 +7,7 @@
 </svelte:head>
 
 <section class="hero">
+   <!-- <img src="/images/profilePic.jpg" alt="Rebecca Stankus" class="profile-pic" /> -->
    <h1>Rebecca Stankus</h1>
    <p class="subtitle">Software Engineer | Full-Stack Developer | XR Specialist</p>
    <p class="intro">Experienced software engineer with expertise in immersive experiences, web applications, and real-time systems. Previous work at High Fidelity and Linden Lab building virtual worlds, WebRTC applications, and interactive 3D environments.</p>
