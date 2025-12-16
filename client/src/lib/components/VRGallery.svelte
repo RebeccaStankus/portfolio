@@ -6,6 +6,7 @@
       image: string;
       description: string;
       link?: string;
+      linkText?: string;
    }
 
    export let objects: VRObject[] = [];
@@ -190,7 +191,7 @@
             <p>{objects[selectedIndex].description}</p>
             {#if objects[selectedIndex].link && !objects[selectedIndex].link.endsWith('.mp4')}
                <a href={objects[selectedIndex].link} target="_blank" rel="noopener" class="view-link">
-                  View More →
+                  {objects[selectedIndex].linkText || 'View More'} →
                </a>
             {/if}
          </div>

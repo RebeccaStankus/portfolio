@@ -3,10 +3,11 @@
 
    const vrObjects = [
       {
-         name: "Bingo",
+         name: "Bingo Extremo",
          image: "/images/hifi-vr/bingo.webp",
-         description: "Interactive multiplayer bingo game built for up to 500 avatars live",
-         link: "https://www.youtube.com/watch?v=9PlmidEF2fo"
+         description: "Our interactive bingo game designed for as many as 500 avatars in a single space was unprecedented! We hosted several games where users won prizes such as cash and VR headsets. The code for this game was complex with many server and client scripts. View the code at: https://github.com/RebeccaStankus/hifi-content/tree/master/events/bingo",
+         link: "https://www.youtube.com/watch?v=9PlmidEF2fo",
+         linkText: "See a live game"
       },
       {
          name: "Instruments",
@@ -52,7 +53,8 @@
       {
          name: "Whiteboard",
          image: "/images/hifi-vr/whiteboard.webp",
-         description: "Collaborative whiteboard for drawing and presentations"
+         description: "Collaborative whiteboard for drawing and presentations",
+         link: "https://pub-5ee5bb131af7402fb9d6eace1faa7d29.r2.dev/videos/whiteboard.mp4"
       }
    ];
 </script>
@@ -70,38 +72,24 @@
 </section>
 
 <section class="project-section">
-   <h2>VR Objects</h2>
-   <p class="section-description">Click any image to view details</p>
+   <h2>VR Content</h2>
+   <p class="section-description">
+      <a href="https://github.com/RebeccaStankus/hifi-content" target="_blank" rel="noopener" class="external-link">View HiFi Content Repository →</a>
+   </p>
    <VRGallery objects={vrObjects} />
 </section>
 
 <section class="project-section">
    <h2>Web Applications</h2>
    <div class="project-grid">
-      <div class="card project-card">
-         <h3>HiFi Tutorial App</h3>
-         <p>Interactive tutorial system for onboarding new users</p>
-      </div>
-      <div class="card project-card">
+      <a href="/enterprise-vr" class="card project-card enterprise-vr-card">
+         <h3>Enterprise VR</h3>
+         <p>Tutorial system for onboarding new users to a 3D work environment</p>
+      </a>
+      <a href="/bigworld" class="card project-card bigworld-card">
          <h3>BigWorld</h3>
-         <p>Large-scale web application with GPT-3.0 AI integration and custom UI components</p>
-      </div>
-      <div class="card project-card">
-         <h3>BigWorld Tutorial</h3>
-         <p>Guided tutorial experience for BigWorld platform</p>
-      </div>
-      <div class="card project-card">
-         <h3>HiFi Stolen Avatar UI</h3>
-         <p>User interface for avatar management system</p>
-      </div>
-      <div class="card project-card">
-         <h3>WebRTC Systems</h3>
-         <p>Real-time communication and streaming applications</p>
-      </div>
-      <div class="card project-card">
-         <h3>UI Work</h3>
-         <p>Interface design and development for platform tools</p>
-      </div>
+         <p>Large-scale web application with GPT-3.0 AI integration, custom UI components, and WebRTC real-time communication systems</p>
+      </a>
    </div>
 </section>
 
@@ -196,5 +184,53 @@
    color: var(--color-text-secondary);
    margin: 0;
    line-height: 1.6;
+}
+
+.enterprise-vr-card {
+   background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/enterprise/enterprise-island.webp');
+   background-size: 133%;
+   background-position: left center;
+   background-repeat: no-repeat;
+   text-decoration: none;
+   color: var(--color-text-primary);
+   position: relative;
+   transition: all 0.3s ease;
+}
+
+.enterprise-vr-card h3 {
+   color: var(--color-text-primary);
+}
+
+.enterprise-vr-card p {
+   color: rgba(255, 255, 255, 0.9);
+}
+
+.enterprise-vr-card:hover {
+   transform: translateY(-4px);
+   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/enterprise/enterprise-island.webp');
+}
+
+.bigworld-card {
+   background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/bigworld/bigworld-entrance.webp');
+   background-size: cover;
+   background-position: center center;
+   background-repeat: no-repeat;
+   text-decoration: none;
+   color: var(--color-text-primary);
+   position: relative;
+   transition: all 0.3s ease;
+}
+
+.bigworld-card h3 {
+   color: var(--color-text-primary);
+}
+
+.bigworld-card p {
+   color: rgba(255, 255, 255, 0.9);
+}
+
+.bigworld-card:hover {
+   transform: translateY(-4px);
+   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/bigworld/bigworld-entrance.webp');
 }
 </style>
