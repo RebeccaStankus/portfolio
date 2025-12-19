@@ -1,5 +1,7 @@
 <script lang="ts">
-   import { onMount } from 'svelte';
+   import emblaCarouselSvelte from 'embla-carousel-svelte';
+   import Autoplay from 'embla-carousel-autoplay';
+   import type { EmblaCarouselType } from 'embla-carousel';
 
    interface VRObject {
       name: string;
@@ -11,120 +13,40 @@
 
    export let objects: VRObject[] = [];
 
-   let scrollContainer: HTMLDivElement;
-   let autoScrollInterval: number;
-   let isPaused = false;
+   let emblaApi: EmblaCarouselType;
    let selectedIndex: number | null = null;
-   let lastInteractionTime = 0;
-   let currentItemIndex = objects.length; // Start at first item of middle set
 
-   // Triple the array for infinite scrolling
-   $: totalObjects = [...objects, ...objects, ...objects];
+   const autoplay = Autoplay({ delay: 3000, stopOnInteraction: false });
 
-   function scrollToNext() {
-      if (!scrollContainer || scrollContainer.children.length === 0) return;
-
-      currentItemIndex++;
-      scrollToItem(currentItemIndex);
-      checkAndResetPosition();
+   function onInit(event: CustomEvent<EmblaCarouselType>) {
+      emblaApi = event.detail;
    }
 
-   function scrollToPrevious() {
-      if (!scrollContainer || scrollContainer.children.length === 0) return;
-
-      currentItemIndex--;
-      scrollToItem(currentItemIndex);
-      checkAndResetPosition();
+   function scrollPrev() {
+      if (emblaApi) emblaApi.scrollPrev();
    }
 
-   function checkAndResetPosition() {
-      // If we've scrolled well into the third set, jump back to middle set without animation
-      if (currentItemIndex >= objects.length * 2 + 3) {
-         setTimeout(() => {
-            currentItemIndex = objects.length + (currentItemIndex % objects.length);
-            scrollToItem(currentItemIndex, false);
-         }, 700);
-      }
-      // If we've scrolled well into the first set, jump to middle set without animation
-      else if (currentItemIndex < objects.length - 3) {
-         setTimeout(() => {
-            currentItemIndex = objects.length + (currentItemIndex % objects.length);
-            scrollToItem(currentItemIndex, false);
-         }, 700);
-      }
-   }
-
-   function scrollToItem(index: number, smooth = true) {
-      if (!scrollContainer || scrollContainer.children.length === 0) return;
-
-      const itemWidth = (scrollContainer.children[0] as HTMLElement).offsetWidth;
-      const gap = 16;
-      const scrollPosition = index * (itemWidth + gap);
-
-      scrollContainer.scrollTo({ left: scrollPosition, behavior: smooth ? 'smooth' : 'auto' });
-   }
-
-   function handleNextClick() {
-      isPaused = true;
-      scrollToNext();
-      setTimeout(() => { isPaused = false; }, 5000); // Resume after 5 seconds
-   }
-
-   function handlePreviousClick() {
-      isPaused = true;
-      scrollToPrevious();
-      setTimeout(() => { isPaused = false; }, 5000); // Resume after 5 seconds
-   }
-
-   function handleMouseEnter() {
-      isPaused = true;
-   }
-
-   function handleMouseLeave() {
-      isPaused = false;
+   function scrollNext() {
+      if (emblaApi) emblaApi.scrollNext();
    }
 
    function handleClick(index: number) {
-      // Map tripled array index back to original object index
-      selectedIndex = index % objects.length;
-      isPaused = true;
+      selectedIndex = index;
+      if (emblaApi) autoplay.stop();
    }
 
    function closeOverlay() {
       selectedIndex = null;
-      isPaused = false;
+      if (emblaApi) autoplay.play();
    }
 
-   function handleTouchStart() {
-      isPaused = true;
-      lastInteractionTime = Date.now();
+   function handleMouseEnter() {
+      if (emblaApi) autoplay.stop();
    }
 
-   function handleTouchEnd() {
-      // Resume auto-scroll after 3 seconds of no interaction
-      setTimeout(() => {
-         if (Date.now() - lastInteractionTime >= 3000) {
-            isPaused = false;
-         }
-      }, 3000);
+   function handleMouseLeave() {
+      if (emblaApi) autoplay.play();
    }
-
-   onMount(() => {
-      // Initialize scroll position to middle set
-      setTimeout(() => {
-         scrollToItem(currentItemIndex, false);
-      }, 100);
-
-      autoScrollInterval = window.setInterval(() => {
-         if (!isPaused) {
-            scrollToNext();
-         }
-      }, 3000);
-
-      return () => {
-         clearInterval(autoScrollInterval);
-      };
-   });
 </script>
 
 <div
@@ -134,33 +56,47 @@
 >
    <button
       class="nav-arrow nav-arrow-left"
-      on:click={handlePreviousClick}
+      on:click={scrollPrev}
+      on:mouseenter={handleMouseEnter}
+      on:mouseleave={handleMouseLeave}
       aria-label="Previous">
    </button>
+
    <div
-      bind:this={scrollContainer}
-      class="gallery-container"
-      on:touchstart={handleTouchStart}
-      on:touchend={handleTouchEnd}
-      role="region"
-      aria-label="VR Objects Gallery"
+      class="embla"
+      use:emblaCarouselSvelte={{
+         options: {
+            loop: true,
+            align: 'start',
+            slidesToScroll: 1
+         },
+         plugins: [autoplay]
+      }}
+      on:emblaInit={onInit}
    >
-      {#each totalObjects as object, index}
-         <button
-            class="gallery-item"
-            on:click={() => handleClick(index)}
-            aria-label={`View ${object.name}`}
-         >
-            <img src={object.image} alt={object.name} loading="lazy" />
-            <div class="item-overlay">
-               <h3>{object.name}</h3>
+      <div class="embla__container">
+         {#each objects as object, index}
+            <div class="embla__slide">
+               <button
+                  class="gallery-item"
+                  on:click={() => handleClick(index)}
+                  aria-label={`View ${object.name}`}
+               >
+                  <img src={object.image} alt={object.name} loading="lazy" />
+                  <div class="item-overlay">
+                     <h3>{object.name}</h3>
+                  </div>
+               </button>
             </div>
-         </button>
-      {/each}
+         {/each}
+      </div>
    </div>
+
    <button
       class="nav-arrow nav-arrow-right"
-      on:click={handleNextClick}
+      on:click={scrollNext}
+      on:mouseenter={handleMouseEnter}
+      on:mouseleave={handleMouseLeave}
       aria-label="Next">
    </button>
 </div>
@@ -270,27 +206,28 @@
          inset 0 2px 4px rgba(0, 0, 0, 0.3);
    }
 
-   .gallery-container {
-      display: flex;
-      gap: 1rem;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      scroll-snap-type: x mandatory;
-      padding: 1rem 0;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+   .embla {
+      overflow: hidden;
       flex: 1;
+      max-width: 992px;
+      padding: 6px 0;
+      margin: -6px 0;
    }
 
-   .gallery-container::-webkit-scrollbar {
-      display: none;
+   .embla__container {
+      display: flex;
+   }
+
+   .embla__slide {
+      flex: 0 0 320px;
+      min-width: 0;
+      margin-right: 1rem;
    }
 
    .gallery-item {
       position: relative;
-      width: 320px;
+      width: 100%;
       height: 200px;
-      flex-shrink: 0;
       border-radius: 8px;
       overflow: hidden;
       cursor: pointer;
@@ -298,7 +235,7 @@
       background: var(--color-bg-secondary);
       transition: all 0.3s ease;
       padding: 0;
-      scroll-snap-align: start;
+      display: block;
    }
 
    .gallery-item:hover {
@@ -420,8 +357,16 @@
    }
 
    @media (max-width: 768px) {
+      .embla {
+         max-width: 100%;
+      }
+
+      .embla__slide {
+         flex: 0 0 280px;
+         margin-right: 1rem;
+      }
+
       .gallery-item {
-         width: 280px;
          height: 180px;
       }
 

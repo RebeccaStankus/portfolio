@@ -12,7 +12,7 @@
 <section class="content-section">
    <div class="story-block">
       <p>
-         Toward the end of 2019, we started to look at VR for work, not realizing how much we would rely on it in a couple of months when Covid would hit. We stripped down our VR platform to work essentials (and maybe a bit of fun content for down time).
+         Toward the end of 2019, we started to look at VR for work, not realizing how much we would rely on it in a couple of months with the onset of the COVID-19 pandemic. We stripped down our VR platform to work essentials (and maybe a bit of fun content for down time).
       </p>
       <img src="/images/enterprise/enterprise-meeting.webp" alt="Enterprise VR Meeting" class="content-image" />
    </div>

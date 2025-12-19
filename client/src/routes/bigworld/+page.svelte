@@ -40,7 +40,7 @@
 
    <div class="story-block">
       <p>
-         With that, we shut down our 3D virtual world servers for good and began to think about spatial audio in a 2D world during the great era of social distance.
+         With that, we shut down our 3D virtual world servers for good and began to think about spatial audio in a 2D world during the period of remote work and social distancing due to the COVID-19 pandemic.
       </p>
       <p>
          I worked with one other engineer on initial prototypes where we were just dots around mixers on a 2D map. As we progressed, the UI became more intricate, using some serious math on HTML canvas elements to perfect movement and rotation of avatars while preserving map orientation.
